@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flame_audio/flame_audio.dart';
 
+import 'Bubble.dart';
 import 'Buttons.dart';
 import 'Player.dart';
 
@@ -20,6 +21,9 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables {
   final leftButton = LeftButton();
   final rightButton = RightButton();
   final gravity = 10;
+
+  // bubble list
+  List<Bubble> bubbles = [];
 
   // keypresses
   static late bool isSpace = false;
@@ -35,10 +39,28 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables {
     FlameAudio.bgm.play('ludipq.mp3', volume: 0.5);
   }
 
+  void addBubble(Vector2 location, Vector2 velocity) {
+    final bubble = Bubble();
+    bubble.position = location;
+    bubble.velocity = velocity;
+    bubbles.add(bubble);
+    add(bubble);
+
+    // destroy bubble after 3 seconds
+    Future.delayed(Duration(milliseconds: 500), () {
+      remove(bubble);
+      bubbles.remove(bubble);
+    });
+  }
+
   @override
   void update(double dt) {
     super.update(dt);
     player.tick(dt);
+    // iterate through bubble list
+    for (var bubble in bubbles) {
+      bubble.tick(dt);
+    }
   }
 
   // on key event

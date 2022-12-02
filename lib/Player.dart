@@ -4,6 +4,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 
+import 'Bubble.dart';
 import 'MyGame.dart';
 
 enum PlayerState {
@@ -28,20 +29,20 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
     final frames = List.generate(length, (i) => i + 1);
     final sprites = frames.map((i) => Sprite.load('$name$i.png'));
 
-    late final animation;
+    double stepConst = 0.5;
+    // controls the speed of the animation
     if (name == 'pipidle') {
-      animation = SpriteAnimation.spriteList(
-        await Future.wait(sprites),
-        stepTime: 2/length,
-        loop: true,
-      );
-    } else {
-      animation = SpriteAnimation.spriteList(
-        await Future.wait(sprites),
-        stepTime: 0.5/length,
-        loop: true,
-      );
+      stepConst = 2;
     }
+    if (name == 'pipattack') {
+      stepConst = 0.1;
+    }
+
+    final animation = SpriteAnimation.spriteList(
+      await Future.wait(sprites),
+      stepTime: stepConst/length,
+      loop: true,
+    );
 
 
     return animation;
@@ -61,9 +62,10 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
   @override
   Future<void> onLoad() async {
     animations = {
-      PlayerState.idle: await loadSpriteAnimation('pipidle', 39),
+      PlayerState.idle: await loadSpriteAnimation('pipidle', 40),
       PlayerState.run: await loadSpriteAnimation('runningpip', 5),
       PlayerState.jump: await loadSpriteAnimation('pipskip', 4),
+      PlayerState.attack: await loadSpriteAnimation('pipattack', 2),
     };
     size = Vector2.all(128.0);
   }
@@ -73,25 +75,34 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
       return;
     }
     attacking = true;
-    FlameAudio.play('pip.wav', volume: 0.25);
-
-    if (!facingLeft) {
-      position += Vector2(50, 0);
-      angle += 5;
-
-      Future.delayed(const Duration(milliseconds: 300), () {
-        position -= Vector2(50, 0);
-        angle -= 5;
+    FlameAudio.play('pipattack.wav', volume: 0.25);
+    // shoot bubble towards direction facing
+    if (facingLeft) {
+      gameRef.addBubble(Vector2(position.x-25, position.y-25), Vector2(-1000, 0));
+      Future.delayed(Duration(milliseconds: 50), () {
+        gameRef.addBubble(Vector2(position.x-20, position.y-20), Vector2(-1000, 0));
       });
+      Future.delayed(Duration(milliseconds: 100), () {
+        gameRef.addBubble(Vector2(position.x-12, position.y-12), Vector2(-1000, 0));
+      });
+      Future.delayed(Duration(milliseconds: 150), () {
+        gameRef.addBubble(Vector2(position.x-2, position.y-2), Vector2(-1000, 0));
+      });
+
     } else {
-      position -= Vector2(50, 0);
-      angle -= 5;
-
-      Future.delayed(const Duration(milliseconds: 100), () {
-        position += Vector2(50, 0);
-        angle += 5;
+      gameRef.addBubble(Vector2(position.x+25, position.y-25), Vector2(1000, 0));
+      Future.delayed(Duration(milliseconds: 50), () {
+        gameRef.addBubble(Vector2(position.x+20, position.y-20), Vector2(1000, 0));
       });
+      Future.delayed(Duration(milliseconds: 100), () {
+        gameRef.addBubble(Vector2(position.x+12, position.y-12), Vector2(1000, 0));
+      });
+      Future.delayed(Duration(milliseconds: 150), () {
+        gameRef.addBubble(Vector2(position.x+2, position.y-2), Vector2(1000, 0));
+      });
+
     }
+
 
 
 
@@ -233,6 +244,9 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
       }
     }
 
+    if (attacking) {
+      current = PlayerState.attack;
+    }
 
 
     position += velocity;
