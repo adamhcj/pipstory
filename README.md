@@ -1,8 +1,8 @@
 # pipstory
 piplup 2d adventure game
 <p>
-Still works in progress, not yet deployed. You will need to clone repo and add it as flutter project.
-Games inspired by pokemon, maplestory
+Still works in progress, not yet deployed. You will need to clone repo and add it as flutter project.<br>
+Game inspired by pokemon and maplestory
 </p>
 
 <br><br>
