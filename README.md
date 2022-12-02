@@ -1,8 +1,9 @@
 # pipstory
 piplup 2d adventure game
 <p>
-Started developing on 1 December 2022
-Still works in progress, not yet deployed. You will need to clone repo and add it as flutter project.<br>
+Started developing on 1 December 2022 <br>
+Still works in progress, not yet deployed.
+You will need to clone repo and add it as flutter project.<br>
 Game inspired by pokemon and maplestory
 </p>
 
