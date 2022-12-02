@@ -2,6 +2,7 @@
 piplup 2d adventure game
 <p>
 Still works in progress, not yet deployed. You will need to clone repo and add it as flutter project.
+Games inspired by pokemon, maplestory
 </p>
 
 <br><br>
@@ -15,9 +16,13 @@ Flutter Flame package for game engine<br>
 Android studio IDE used to develop this flutter application
 </p>
 
-# current version (v2) demo: (please enable sounds to listen to the sounds!)
+# current version (v3) demo: (please enable sounds to listen to the sounds!)
 
-https://user-images.githubusercontent.com/82926705/205226488-ccabce60-57f1-403e-9bee-ffd23266a351.mp4
+
+
+https://user-images.githubusercontent.com/82926705/205255807-df792797-f12b-410f-8cba-aba3c6d4d792.mp4
+
+
 
 
 # Changelog:
@@ -46,5 +51,20 @@ idle animation (official 3d sprite) credits: https://projectpokemon.org/home/doc
 additional tools used to extract png from gifs:
 GIMP
 GIMP export layers plugin: https://github.com/kamilburda/gimp-export-layers
+
+_________________________________________________________________________________________________________________________________________________________
+pipstory version 3:
+
+Changed idle animation to another version from: https://arnavprasad.me/projects/
+shiny-hunt-automator/
+
+attack animation and sound recorded from
+official pokemon youtube: https://www.youtube.com/watch?v=XY0BTerIbBg&ab_channel=
+TheOfficialPok%C3%A9monYouTubechannel
+
+attack bubble beam extracted from: https://www.deviantart.com/kaspiian/art/
+Bubblebeam-246610843
+
+Added bubble beam attack by pressing C
 
 </p>
