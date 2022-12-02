@@ -1,10 +1,19 @@
 # pipstory
 piplup 2d adventure game
+<p>
+Still works in progress, not yet deployed. You will need to clone repo and add it as flutter project.
+</p>
+
 <br><br>
 Tech stack:<br>
 Dart<br>
 Flutter<br>
 Flutter Flame package for game engine<br>
+
+<br>
+<p>
+Android studio IDE used to develop this flutter application
+</p>
 
 # current version (v2) demo: (please enable sounds to listen to the sounds!)
 
