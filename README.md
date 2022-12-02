@@ -28,14 +28,11 @@ ________________________________________________________________________________
 pipstory version 2:
 
 Added animations
-running animation credits: https://www.deviantart.com/chocomiru02/art/Pokemon-
-Running-Piplup-Animation-706510277
+running animation credits: https://www.deviantart.com/chocomiru02/art/Pokemon-Running-Piplup-Animation-706510277
 
-jumping animation credits: https://aminoapps.com/c/pokemon/page/blog/how-to-make-
-piplup-appear-in-magikarp-jump/o6hd_uDMXK7qpM2eWE5B71ZBmxbboL
+jumping animation credits: https://aminoapps.com/c/pokemon/page/blog/how-to-make-piplup-appear-in-magikarp-jump/o6hd_uDMXK7qpM2eWE5B71ZBmxbboL
 
-idle animation (official 3d sprite) credits: https://projectpokemon.org/home/docs/
-spriteindex_148/3d-models-generation-4-pok%C3%A9mon-r93/
+idle animation (official 3d sprite) credits: https://projectpokemon.org/home/docs/spriteindex_148/3d-models-generation-4-pok%C3%A9mon-r93/
 
 additional tools used to extract png from gifs:
 GIMP
