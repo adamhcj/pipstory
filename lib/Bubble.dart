@@ -13,7 +13,7 @@ class Bubble extends SpriteComponent with HasGameRef<MyGame> {
   @override
   Future<void> onLoad() async {
     sprite = await Sprite.load('bubble.png');
-    size = Vector2.all(20.0);
+    size = Vector2.all(50.0);
   }
 
   void tick(dt) {

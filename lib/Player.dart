@@ -1,8 +1,12 @@
 
 
 // Player
+import 'dart:ui';
+
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:pipstory/Platform.dart';
 
 import 'Bubble.dart';
 import 'MyGame.dart';
@@ -14,7 +18,7 @@ enum PlayerState {
   attack
 }
 
-class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<MyGame> {
+class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<MyGame>, CollisionCallbacks {
   bool attacking = false;
   bool facingLeft = true;
   bool onGround = false;
@@ -61,6 +65,17 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
 
   @override
   Future<void> onLoad() async {
+
+    // add hitboxes
+    ShapeHitbox hitbox = RectangleHitbox.relative(Vector2(0.5, 0.05), position: Vector2(60, 125), parentSize: size, anchor: Anchor.center);
+    // paints the hitbox so we can see
+    hitbox.paint = Paint()..color = Color(0x99FF0000);
+
+    hitbox.renderShape = true;
+    add(hitbox);
+
+
+    // populate all animation states
     animations = {
       PlayerState.idle: await loadSpriteAnimation('pipidle', 40),
       PlayerState.run: await loadSpriteAnimation('runningpip', 5),
@@ -121,11 +136,10 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
 
     onGround = false;
     velocity.y = -5;
-    position.y -= 1;
 
   }
 
-  void moveLeft() {
+  void moveLeft(dt) {
     if (attacking) {
       return;
     }
@@ -142,19 +156,28 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
       }
       // if havent reach max speed,
       if (velocity.x > -2) {
-        velocity.x -= 0.4;
+        velocity.x -= 0.2 * dt;
+
+        if (velocity.x < -2) {
+          velocity.x = -2;
+        }
       }
 
     } else {
       if (velocity.x > -2) {
-        velocity.x -= 0.01;
+        velocity.x -= 0.01 * dt;
+
+        if (velocity.x < -2) {
+          velocity.x = -2;
+        }
+
       }
 
     }
 
   }
 
-  void moveRight() {
+  void moveRight(dt) {
     if (attacking) {
       return;
     }
@@ -170,26 +193,67 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
       }
       // if havent reach max speed,
       if (velocity.x < 2) {
-        velocity.x += 0.4;
+        velocity.x += 0.2 * dt;
+
+        if (velocity.x > 2) {
+          velocity.x = 2;
+        }
+
       }
 
     } else {
       if (velocity.x < 2) {
-        velocity.x += 0.01;
+        velocity.x += 0.01 * dt;
+
+        if (velocity.x > 2) {
+          velocity.x = 2;
+        }
       }
+    }
+  }
+
+  // on collision
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (velocity.y < 0) {
+      return;
+    }
+    onGround = true;
+    velocity.y = 0;
+    position.y = activeCollisions.first.position.y - 80;
+    if (other is RectangleHitbox) {
+      // print("test");
     }
   }
 
   void tick(dt) {
 
-    if (position.y > 500 && velocity.y > 0) {
-      position.y = 500;
+    if (activeCollisions.isEmpty && onGround) {
+      onGround = false;
+    }
+    // check if collide with platform, then set on ground to be true
+    if (activeCollisions.isNotEmpty && !onGround && velocity.y >= 0) {
+      onGround = true;
+
+      velocity.y = 0;
+      // check intersection of collision
+      position.y = activeCollisions.first.position.y - 80;
+
+    }
+
+    // if too low on the screen, set on ground to true
+    if (position.y > 1500 && velocity.y > 0) {
+      position.y = -300;
+      position.x = 200;
       velocity.y = 0;
       onGround = true;
     }
 
     if (!onGround) {
       velocity += Vector2(0, dt*gameRef.gravity);
+      if (velocity.y > 5) {
+        velocity.y = 5;
+      }
       current = PlayerState.jump;
     } else {
       current = PlayerState.idle;
@@ -215,11 +279,11 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
 
 
       if (MyGame.isLeft) {
-        moveLeft();
+        moveLeft(dt * 300);
       }
 
       if (MyGame.isRight) {
-        moveRight();
+        moveRight(dt * 300);
       }
 
     } else {
@@ -249,8 +313,33 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
     }
 
 
-    position += velocity;
+    position += velocity * dt * 200;
   }
 
 
+}
+
+
+class CameraObject extends PositionComponent with HasGameRef<MyGame> {
+  @override
+  void render(Canvas c) {
+
+  }
+
+  tick(dt) {
+    // cameraobject follows player but not too closely
+    if (gameRef.player.position.x > position.x + gameRef.canvasSize.x / 2 - 100) {
+      position.x = gameRef.player.position.x - gameRef.canvasSize.x / 2 + 100;
+
+    }
+    if (gameRef.player.position.x < position.x - gameRef.canvasSize.x / 2 + 100) {
+      position.x = gameRef.player.position.x + gameRef.canvasSize.x / 2 - 100;
+    }
+    if (gameRef.player.position.y > position.y + gameRef.canvasSize.y / 2 - 200) {
+      position.y = gameRef.player.position.y - gameRef.canvasSize.y / 2 + 200;
+    }
+    if (gameRef.player.position.y < position.y - gameRef.canvasSize.y / 2 + 200) {
+      position.y = gameRef.player.position.y + gameRef.canvasSize.y / 2 - 200;
+    }
+  }
 }
