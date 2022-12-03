@@ -2,9 +2,13 @@
 piplup 2d adventure game
 <p>
 Started developing on 1 December 2022 <br>
-Still works in progress, not yet deployed.
+Try it out! (please turn ur mobile to landscape orientation if trying on mobile)<br>
+Currently web deployed on: https://piplupowo.github.io/pipstory/<br>
+
 You will need to clone repo and add it as flutter project.<br>
-Game inspired by pokemon and maplestory
+Game inspired by pokemon and maplestory<br>
+maplestory sound effects used: jumping sound, background music (login screen music from maplestory)<br>
+pokemon sound effects used: piplup attack sound<br>
 </p>
 
 <br>
@@ -19,10 +23,11 @@ Android studio IDE used to develop this flutter application
 </p>
 
 # Demo: (please enable sounds to listen to the sounds!)
-<p> Current Version: v3 </p>
+<p> Current Version: v4 </p>
 
 
-https://user-images.githubusercontent.com/82926705/205255807-df792797-f12b-410f-8cba-aba3c6d4d792.mp4
+https://user-images.githubusercontent.com/82926705/205452360-66d12ce5-4d92-479a-8197-a6495c996c70.mp4
+
 
 
 
@@ -65,5 +70,28 @@ official pokemon youtube: https://www.youtube.com/watch?v=XY0BTerIbBg&ab_channel
 attack bubble beam extracted from: https://www.deviantart.com/kaspiian/art/Bubblebeam-246610843
 
 Added bubble beam attack by pressing C
+
+_________________________________________________________________________________________________________________________________________________________
+pipstory version 4:
+
+
+Fixed to landscape orientation for mobile
+
+Left and right arrow buttons (i drew them haha)
+
+camera following player
+
+added screen markers
+
+added hitboxes for platform
+
+added platforms that player can stand on
+
+camera more zoomed out, looks better for smaller screens
+
+spacebar button added.
+
+C button added.
+
 
 </p>
