@@ -30,7 +30,6 @@ enum CButtonState {
 class LeftButton extends SpriteAnimationGroupComponent<LeftButtonState> with HasGameRef<MyGame>, Tappable{
   LeftButton() : super(
       size: Vector2.all(88),
-      position: Vector2(900, 650),
       anchor: Anchor.center
   );
 
@@ -98,7 +97,6 @@ class LeftButton extends SpriteAnimationGroupComponent<LeftButtonState> with Has
 class RightButton extends SpriteAnimationGroupComponent<RightButtonState> with HasGameRef<MyGame>, Tappable {
   RightButton() : super(
       size: Vector2.all(88),
-      position: Vector2(990, 650),
       anchor: Anchor.center
   );
 
@@ -164,7 +162,6 @@ class RightButton extends SpriteAnimationGroupComponent<RightButtonState> with H
 class SpaceBar extends SpriteAnimationGroupComponent<SpaceBarState> with HasGameRef<MyGame>, Tappable {
   SpaceBar() : super(
       size: Vector2(400, 68),
-      position: Vector2.all(100),
       anchor: Anchor.center
   );
 

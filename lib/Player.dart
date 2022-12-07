@@ -69,7 +69,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
   Future<void> onLoad() async {
 
     // add hitboxes
-    ShapeHitbox hitbox = RectangleHitbox.relative(Vector2(0.5, 0.05), position: Vector2(60, 125), parentSize: size, anchor: Anchor.center);
+    ShapeHitbox hitbox = RectangleHitbox.relative(Vector2(0.5, 0.3), position: Vector2(60, 125), parentSize: size, anchor: Anchor.center);
     // paints the hitbox so we can see
     hitbox.paint = Paint()..color = Color(0x0);
 

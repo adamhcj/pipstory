@@ -1,10 +1,7 @@
 
 import 'dart:ui';
 
-import 'package:flame/collisions.dart';
-import 'package:flame/collisions.dart';
-import 'package:flame/collisions.dart';
-import 'package:flame/collisions.dart';
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -25,9 +22,7 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
   Color backgroundColor() => const Color(0x59A3F4FF);
 
   int candyCounter = 0;
-  final TextBoxComponent candyCounterText = TextBoxComponent(
-    position: Vector2(10, 10),
-  );
+  final TextComponent candyCounterText = TextComponent();
 
 
   final player = Player();
@@ -60,11 +55,15 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
   // function to add markers in the world
   void addMarker(double x, double y) {
     String text = '$x, $y';
-    add(TextBoxComponent(text: text, textRenderer: textPaint, position: Vector2(x, y)));
+    // add(TextBoxComponent(text: text, position: Vector2(x, y)));
   }
 
   void addTextAt(String text, double x, double y) {
-    add(TextBoxComponent(text: text, textRenderer: textPaint, position: Vector2(x, y)));
+    TextComponent textComponent = TextComponent();
+    textComponent.text = text;
+    textComponent.position = Vector2(x, y);
+    textComponent.textRenderer = textPaint;
+    add(textComponent);
   }
 
   void addPlatform(double x, double y, double width, double height) {
@@ -113,15 +112,6 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
     background.positionType = PositionType.viewport;
     add(background);
 
-    // candy counter component
-    candyCounterText.text = 'Candy: $candyCounter';
-    candyCounterText.textRenderer = textPaint;
-    candyCounterText.priority = 1;
-    candyCounterText.positionType = PositionType.viewport;
-    add(candyCounterText);
-
-    FlameAudio.bgm.play('maple.wav', volume: 0.5);
-
     addRareCandy(0, 0);
     // adds screen markers for reference
     for (double i = 0; i <= 8000; i+=800) {
@@ -136,17 +126,31 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
       addPlatform(300*i, 500*-i, 80, 50);
     }
     for (double i = 1; i <= 20; i++) {
-      addMarker(300*-i, 250*-i);
+      // addMarker(300*-i, 250*-i);
       addPlatform(300*-i, 250*-i, 80, 50);
     }
 
-    addTextAt("Jump quest here! >>>", 70, -270);
-    addTextAt("^ Jump quest on top! ^", 70, 900);
-
-    
     addPlatform(100, 1200, 1000, 50);
 
-    print(canvasSize);
+
+    addTextAt("Jump quest here! >>>", 20, -230);
+    addTextAt("^ Jump quest on top! ^", 70, 900);
+
+
+
+    // candy counter component
+    candyCounterText.text = 'Candy: 0';
+    candyCounterText.textRenderer = textPaint;
+
+    candyCounterText.priority = 1;
+    candyCounterText.positionType = PositionType.viewport;
+
+    add(candyCounterText);
+
+    FlameAudio.bgm.play('maple.wav', volume: 0.5);
+
+
+
   }
 
   // on resize
@@ -162,9 +166,10 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
 
 
   void addBubble(Vector2 location, Vector2 velocity) {
-    final bubble = Bubble();
+    Bubble bubble = Bubble();
     bubble.position = location;
     bubble.velocity = velocity;
+    bubble.priority = 1;
     bubbles.add(bubble);
     add(bubble);
 
