@@ -7,8 +7,8 @@ Currently web deployed on: https://piplupowo.github.io/pipstory/<br>
 
 You will need to clone repo and add it as flutter project.<br>
 Game inspired by pokemon and maplestory<br>
-maplestory sound effects used: jumping sound, background music (login screen music from maplestory)<br>
-pokemon sound effects used: piplup attack sound<br>
+maplestory sound effects used: jumping sound, looting sound, background music (login screen music from maplestory)<br>
+pokemon sound effects used: piplup sounds<br>
 </p>
 
 <br>
@@ -23,10 +23,13 @@ Android studio IDE used to develop this flutter application
 </p>
 
 # Demo: (please enable sounds to listen to the sounds!)
-<p> Current Version: v4 </p>
+<p> Current Version: v5 </p>
 
 
-https://user-images.githubusercontent.com/82926705/205452360-66d12ce5-4d92-479a-8197-a6495c996c70.mp4
+
+https://user-images.githubusercontent.com/82926705/206107149-7c54c36b-2391-423c-9995-c612735dcffd.mp4
+
+
 
 
 
