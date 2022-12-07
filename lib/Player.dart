@@ -1,6 +1,7 @@
 
 
 // Player
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/collisions.dart';
@@ -10,6 +11,7 @@ import 'package:pipstory/Platform.dart';
 
 import 'Bubble.dart';
 import 'MyGame.dart';
+import 'RareCandy.dart';
 
 enum PlayerState {
   idle,
@@ -69,7 +71,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
     // add hitboxes
     ShapeHitbox hitbox = RectangleHitbox.relative(Vector2(0.5, 0.05), position: Vector2(60, 125), parentSize: size, anchor: Anchor.center);
     // paints the hitbox so we can see
-    hitbox.paint = Paint()..color = Color(0x99FF0000);
+    hitbox.paint = Paint()..color = Color(0x0);
 
     hitbox.renderShape = true;
     add(hitbox);
@@ -92,29 +94,22 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
     attacking = true;
     FlameAudio.play('pipattack.wav', volume: 0.25);
     // shoot bubble towards direction facing
+    int noOfAttacks = 10;
+
     if (facingLeft) {
-      gameRef.addBubble(Vector2(position.x-25, position.y-25), Vector2(-1000, 0));
-      Future.delayed(Duration(milliseconds: 50), () {
-        gameRef.addBubble(Vector2(position.x-20, position.y-20), Vector2(-1000, 0));
-      });
-      Future.delayed(Duration(milliseconds: 100), () {
-        gameRef.addBubble(Vector2(position.x-12, position.y-12), Vector2(-1000, 0));
-      });
-      Future.delayed(Duration(milliseconds: 150), () {
-        gameRef.addBubble(Vector2(position.x-2, position.y-2), Vector2(-1000, 0));
-      });
+
+      for (int i = 0; i < noOfAttacks; i++) {
+        Future.delayed(Duration(milliseconds: i*(50-noOfAttacks)), () {
+          gameRef.addBubble(Vector2(position.x-25, position.y-10), Vector2(-1000, -10 * noOfAttacks + i*30));
+        });
+      }
 
     } else {
-      gameRef.addBubble(Vector2(position.x+25, position.y-25), Vector2(1000, 0));
-      Future.delayed(Duration(milliseconds: 50), () {
-        gameRef.addBubble(Vector2(position.x+20, position.y-20), Vector2(1000, 0));
-      });
-      Future.delayed(Duration(milliseconds: 100), () {
-        gameRef.addBubble(Vector2(position.x+12, position.y-12), Vector2(1000, 0));
-      });
-      Future.delayed(Duration(milliseconds: 150), () {
-        gameRef.addBubble(Vector2(position.x+2, position.y-2), Vector2(1000, 0));
-      });
+      for (int i = 0; i < noOfAttacks; i++) {
+        Future.delayed(Duration(milliseconds: i*50), () {
+          gameRef.addBubble(Vector2(position.x+25, position.y-10), Vector2(1000, -10 * noOfAttacks + i*30));
+        });
+      }
 
     }
 
@@ -218,26 +213,37 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
     if (velocity.y < 0) {
       return;
     }
-    onGround = true;
-    velocity.y = 0;
-    position.y = activeCollisions.first.position.y - 80;
+    if (other is Platform) {
+      onGround = true;
+      velocity.y = 0;
+      position.y = other.position.y - 80;
+    }
+
     if (other is RectangleHitbox) {
       // print("test");
     }
   }
 
   void tick(dt) {
+    bool touchingPlatform = false;
+    late Vector2 platformPosition;
+    for (final collision in activeCollisions) {
+      if (collision is Platform) {
+        touchingPlatform = true;
+        platformPosition = collision.position;
+      }
+    }
 
-    if (activeCollisions.isEmpty && onGround) {
+    if (!touchingPlatform && onGround) {
       onGround = false;
     }
     // check if collide with platform, then set on ground to be true
-    if (activeCollisions.isNotEmpty && !onGround && velocity.y >= 0) {
+    if (touchingPlatform && !onGround && velocity.y >= 0) {
       onGround = true;
 
       velocity.y = 0;
       // check intersection of collision
-      position.y = activeCollisions.first.position.y - 80;
+      position.y = platformPosition.y - 80;
 
     }
 
@@ -341,5 +347,33 @@ class CameraObject extends PositionComponent with HasGameRef<MyGame> {
     if (gameRef.player.position.y < position.y - gameRef.canvasSize.y / 2 + 200) {
       position.y = gameRef.player.position.y + gameRef.canvasSize.y / 2 - 200;
     }
+  }
+}
+
+class PlayerHitboxComponent extends PositionComponent with HasGameRef<MyGame>, CollisionCallbacks{
+  @override
+  void render(Canvas c) {
+
+  }
+
+  //on load
+  @override
+  Future<void> onLoad() async {
+    size = gameRef.player.size * 0.8;
+    anchor = gameRef.player.anchor;
+    // add hitboxes
+    ShapeHitbox hitbox = RectangleHitbox();
+    // paints the hitbox so we can see
+    hitbox.paint = Paint()..color = Color(0x0);
+
+    hitbox.renderShape = true;
+    add(hitbox);
+  }
+
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    position = gameRef.player.position;
   }
 }

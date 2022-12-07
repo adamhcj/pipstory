@@ -17,12 +17,16 @@ class Platform extends SpriteComponent with HasGameRef<MyGame>, CollisionCallbac
     sprite = await Sprite.load('platform.png');
 
     // add hitboxes
-    ShapeHitbox hitbox = RectangleHitbox.relative(Vector2(1, 0.2), position: Vector2(0, 5), parentSize: size, anchor: Anchor.topLeft);
+    ShapeHitbox hitbox = PlatformHitbox(size);
     // paints the hitbox so we can see
-    hitbox.paint = Paint()..color = Color(0x99FF0000);
+    hitbox.paint = Paint()..color = Color(0x0);
 
     hitbox.renderShape = true;
     add(hitbox);
 
   }
+}
+
+class PlatformHitbox extends RectangleHitbox {
+  PlatformHitbox(size) : super.relative(Vector2(1, 0.2), position: Vector2(0, 5), parentSize: size, anchor: Anchor.topLeft);
 }

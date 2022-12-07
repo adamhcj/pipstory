@@ -18,6 +18,7 @@ class Bubble extends SpriteComponent with HasGameRef<MyGame> {
 
   void tick(dt) {
     position.x += velocity.x * dt;
+    position.y += velocity.y * dt;
   }
 
 

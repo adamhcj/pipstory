@@ -29,8 +29,8 @@ enum CButtonState {
 
 class LeftButton extends SpriteAnimationGroupComponent<LeftButtonState> with HasGameRef<MyGame>, Tappable{
   LeftButton() : super(
-      size: Vector2.all(288),
-      position: Vector2.all(100),
+      size: Vector2.all(88),
+      position: Vector2(900, 650),
       anchor: Anchor.center
   );
 
@@ -58,6 +58,12 @@ class LeftButton extends SpriteAnimationGroupComponent<LeftButtonState> with Has
       LeftButtonState.pressed: await loadSpriteAnimation('leftpressed', 1),
     };
     current = LeftButtonState.unpressed;
+    onClientResize();
+  }
+
+  void onClientResize() {
+    Vector2 newSize = gameRef.canvasSize;
+    position = newSize - Vector2(140, 50);
   }
 
   @override
@@ -84,15 +90,15 @@ class LeftButton extends SpriteAnimationGroupComponent<LeftButtonState> with Has
   }
 
   void tick(dt) {
-    position = gameRef.cameraObject.position + gameRef.canvasSize/2*2.78 - Vector2(400, 120);
+    // position = gameRef.cameraObject.position + gameRef.canvasSize/2*2.78 - Vector2(400, 120);
   }
 
 }
 
 class RightButton extends SpriteAnimationGroupComponent<RightButtonState> with HasGameRef<MyGame>, Tappable {
   RightButton() : super(
-      size: Vector2.all(128),
-      position: Vector2.all(100),
+      size: Vector2.all(88),
+      position: Vector2(990, 650),
       anchor: Anchor.center
   );
 
@@ -119,9 +125,13 @@ class RightButton extends SpriteAnimationGroupComponent<RightButtonState> with H
       RightButtonState.unpressed: await loadSpriteAnimation('right', 1),
       RightButtonState.pressed: await loadSpriteAnimation('rightpressed', 1),
     };
-    size = Vector2.all(288.0);
-    position.x += 200;
     current = RightButtonState.unpressed;
+    onClientResize();
+  }
+
+  void onClientResize() {
+    Vector2 newSize = gameRef.canvasSize;
+    position = newSize - Vector2(50, 50);
   }
 
   @override
@@ -146,14 +156,14 @@ class RightButton extends SpriteAnimationGroupComponent<RightButtonState> with H
   }
 
   void tick(dt) {
-    position = gameRef.cameraObject.position + gameRef.canvasSize/2*2.78 - Vector2(110, 120);
+    // position = gameRef.cameraObject.position + gameRef.canvasSize/2*2.78 - Vector2(110, 120);
   }
 
 }
 
 class SpaceBar extends SpriteAnimationGroupComponent<SpaceBarState> with HasGameRef<MyGame>, Tappable {
   SpaceBar() : super(
-      size: Vector2(1000, 128),
+      size: Vector2(400, 68),
       position: Vector2.all(100),
       anchor: Anchor.center
   );
@@ -181,8 +191,13 @@ class SpaceBar extends SpriteAnimationGroupComponent<SpaceBarState> with HasGame
       SpaceBarState.unpressed: await loadSpriteAnimation('spacebar', 1),
       SpaceBarState.pressed: await loadSpriteAnimation('spacebarpressed', 1),
     };
-    position.x += 200;
     current = SpaceBarState.unpressed;
+    onClientResize();
+  }
+
+  void onClientResize() {
+    Vector2 newSize = gameRef.canvasSize;
+    position = newSize - Vector2(420, 45);
   }
 
   @override
@@ -207,15 +222,14 @@ class SpaceBar extends SpriteAnimationGroupComponent<SpaceBarState> with HasGame
   }
 
   void tick(dt) {
-    position = gameRef.cameraObject.position + gameRef.canvasSize/2*2.78 - Vector2(1100, 100);
+    // position = gameRef.cameraObject.position + gameRef.canvasSize/2*2.78 - Vector2(1100, 100);
   }
 
 }
 
 class CButton extends SpriteAnimationGroupComponent<CButtonState> with HasGameRef<MyGame>, Tappable {
   CButton() : super(
-      size: Vector2.all(288),
-      position: Vector2.all(100),
+      size: Vector2.all(88),
       anchor: Anchor.center
   );
 
@@ -242,8 +256,17 @@ class CButton extends SpriteAnimationGroupComponent<CButtonState> with HasGameRe
       CButtonState.unpressed: await loadSpriteAnimation('C', 1),
       CButtonState.pressed: await loadSpriteAnimation('Cpressed', 1),
     };
-    position.x += 200;
     current = CButtonState.unpressed;
+    onClientResize();
+  }
+
+  void onClientResize() {
+    Vector2 newSize = gameRef.canvasSize;
+    position = newSize - Vector2(680, 50);
+    if (position.x < 0) {
+      position.x = 30;
+      position.y -= 70;
+    }
   }
 
   @override
@@ -268,14 +291,14 @@ class CButton extends SpriteAnimationGroupComponent<CButtonState> with HasGameRe
   }
 
   void tick(dt) {
-    position = gameRef.cameraObject.position + gameRef.canvasSize/2*2.78 - Vector2(1760, 150);
-    if (gameRef.canvasSize.x < 630) {
-      position.x += 300;
-      position.y -= 170;
-    }
-    if (gameRef.canvasSize.x < 520) {
-      position.x += 150;
-    }
+    // position = gameRef.cameraObject.position + gameRef.canvasSize/2*2.78 - Vector2(1760, 150);
+    // if (gameRef.canvasSize.x < 630) {
+    //   position.x += 300;
+    //   position.y -= 170;
+    // }
+    // if (gameRef.canvasSize.x < 520) {
+    //   position.x += 150;
+    // }
   }
 
 }
