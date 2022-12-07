@@ -95,6 +95,28 @@ camera more zoomed out, looks better for smaller screens
 spacebar button added.
 
 C button added.
+  
+_________________________________________________________________________________________________________________________________________________________
+pipstory version 5:
+
+Added background: https://www.pinterest.com/pin/368450813254708380/
+
+added rare candy: https://dotesports.com/pokemon/news/rare-candy-locations-in-pokemon-brilliant-diamond-and-shining-pearl
+
+made hitbox transparent
+
+Changed how the button positions itself, now it is fixed position and changes
+only on game resize rather than every tick
+
+made spacebar and C button more transparent
+
+added rare candies and looting (with sounds)
+
+added candy counter
+
+zoomed in slightly
+
+code refactoring, improved certain code like button positioning, number of attacks
 
 
 </p>
