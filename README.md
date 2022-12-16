@@ -23,11 +23,14 @@ Android studio IDE used to develop this flutter application
 </p>
 
 # Demo: (please enable sounds to listen to the sounds!)
-<p> Current Version: v5 </p>
+<p> Current Version: v6 </p>
 
 
 
-https://user-images.githubusercontent.com/82926705/206107149-7c54c36b-2391-423c-9995-c612735dcffd.mp4
+https://user-images.githubusercontent.com/82926705/208002594-2eef2feb-df08-45ef-bf59-af7958c8fee7.mp4
+
+
+
 
 
 
@@ -117,6 +120,24 @@ added candy counter
 zoomed in slightly
 
 code refactoring, improved certain code like button positioning, number of attacks
+
+_________________________________________________________________________________________________________________________________________________________
+pipstory version 6:
+
+if canvasSize.y is small, camera zooms out.
+
+improved background on resize
+
+number of bubble attacks will scale accordingly to rare candy collected
+
+damage added, scales according to number of rare candies collected
+
+added bubble hitting sound, from maplestory. recorded sound from:
+https://www.youtube.com/watch?v=aC6bgDFCESo&ab_channel=Static
+
+bubble splash effect: https://www.pinterest.com/pin/135470039327121052hit0gif-263245--573786808766258945/
+
+added enemy piplup for a target dummy.
 
 
 </p>
