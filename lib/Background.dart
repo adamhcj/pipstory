@@ -15,7 +15,7 @@ class Background extends SpriteComponent with HasGameRef<MyGame> {
   }
 
   void onClientResize() {
-    Vector2 newSize = gameRef.size;
-    size = newSize/1.8;
+    Vector2 newSize = gameRef.canvasSize;
+    size = newSize/0.8;
   }
 }

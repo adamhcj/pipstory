@@ -61,10 +61,10 @@ class RareCandy extends SpriteComponent with HasGameRef<MyGame>, CollisionCallba
 
     FlameAudio.play('loot.wav', volume: 0.5);
 
-    Future.delayed(Duration(milliseconds: 400), () {
+    Future.delayed(Duration(milliseconds: 220), () {
       gameRef.candyCounter++;
       gameRef.candyCounterText.text = 'Candy: ${gameRef.candyCounter}';
-      FlameAudio.play('pip.wav', volume: 0.5);
+      FlameAudio.play('pip.wav', volume: 0.35);
       gameRef.remove(this);
     });
 

@@ -1,5 +1,4 @@
 
-import 'dart:ui';
 
 
 import 'package:flame/components.dart';
@@ -13,6 +12,7 @@ import 'package:pipstory/Platform.dart';
 import 'Background.dart';
 import 'Bubble.dart';
 import 'Buttons.dart';
+import 'Monster.dart';
 import 'Player.dart';
 import 'RareCandy.dart';
 
@@ -45,8 +45,8 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
   static late bool isC = false;
 
   // for screen markers, setting the text format
-  final textPaint = TextPaint(
-    style: const TextStyle(
+  TextPaint textPaint = TextPaint(
+    style: TextStyle(
       color: Color(0xFFFF0000),
       fontSize: 30,
     ),
@@ -58,12 +58,14 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
     // add(TextBoxComponent(text: text, position: Vector2(x, y)));
   }
 
-  void addTextAt(String text, double x, double y) {
+  TextComponent addTextAt(String text, double x, double y) {
     TextComponent textComponent = TextComponent();
     textComponent.text = text;
     textComponent.position = Vector2(x, y);
     textComponent.textRenderer = textPaint;
+    textComponent.priority = 5;
     add(textComponent);
+    return textComponent;
   }
 
   void addPlatform(double x, double y, double width, double height) {
@@ -84,13 +86,7 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
   @override
   Future<void> onLoad() async {
     // initial world population
-    player.priority = 1;
-    add(player);
-    add(playerHitboxComponent);
 
-    add(cameraObject);
-    camera.followComponent(cameraObject);
-    camera.zoom = 0.42;
 
     leftButton.priority = 1;
     leftButton.positionType = PositionType.viewport;
@@ -114,12 +110,13 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
 
     addRareCandy(0, 0);
     // adds screen markers for reference
-    for (double i = 0; i <= 8000; i+=800) {
+    for (double i = 800; i <= 8000; i+=800) {
       for (double j = 0; j <= 1000; j+=200) {
         // addMarker(i, j);
         addPlatform(i, j, 400, 50);
       }
     }
+    addPlatform(0, 0, 900, 50);
 
     for (double i = 1; i <= 20; i++) {
       addPlatform(300*i, 250*-i, 80, 50);
@@ -130,11 +127,14 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
       addPlatform(300*-i, 250*-i, 80, 50);
     }
 
-    addPlatform(100, 1200, 1000, 50);
+    // addPlatform(100, 1200, 1000, 50);
 
 
     addTextAt("Jump quest here! >>>", 20, -230);
     addTextAt("^ Jump quest on top! ^", 70, 900);
+
+    addTextAt("Collect rare candies and grow stronger\nwith more bubble attacks! ", -250, -330);
+
 
 
 
@@ -147,7 +147,18 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
 
     add(candyCounterText);
 
-    FlameAudio.bgm.play('maple.wav', volume: 0.5);
+    player.priority = 1;
+    add(player);
+    add(playerHitboxComponent);
+
+    add(cameraObject);
+    camera.followComponent(cameraObject);
+    camera.zoom = 0.5;
+
+    add(Monster());
+    addTextAt("Enemy piplup for you to attack", 0, 0);
+
+    FlameAudio.bgm.play('maple.wav', volume: 0.3);
 
 
 
@@ -162,21 +173,35 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
     spaceBar.onClientResize();
     cButton.onClientResize();
     background.onClientResize();
+
+    if (canvasSize.y < 350) {
+      camera.zoom = 0.3;
+    }
+    else if (canvasSize.y < 600) {
+      camera.zoom = 0.5;
+    }
+    else {
+      camera.zoom = 0.6;
+    }
+
   }
 
 
-  void addBubble(Vector2 location, Vector2 velocity) {
-    Bubble bubble = Bubble();
+  void addBubble(Vector2 location, Vector2 velocity, int number) {
+    Bubble bubble = Bubble(number);
     bubble.position = location;
     bubble.velocity = velocity;
     bubble.priority = 1;
     bubbles.add(bubble);
     add(bubble);
 
-    // destroy bubble after 3 seconds
-    Future.delayed(Duration(milliseconds: 500), () {
-      remove(bubble);
-      bubbles.remove(bubble);
+    // destroy bubble after 6 seconds
+    Future.delayed(Duration(milliseconds: 600), () {
+      if (bubble.current != BubbleState.splash) {
+        remove(bubble);
+        bubbles.remove(bubble);
+      }
+
     });
   }
 
@@ -191,6 +216,11 @@ class MyGame extends FlameGame with KeyboardEvents, HasTappables , HasCollisionD
     // rightButton.tick(dt);
     // spaceBar.tick(dt);
     // cButton.tick(dt);
+
+    // iterate through monsters in game
+    children.whereType<Monster>().forEach((monster) {
+      monster.tick(dt);
+    });
 
     // iterate through bubble list
     for (var bubble in bubbles) {

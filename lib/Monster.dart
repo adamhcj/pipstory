@@ -13,19 +13,21 @@ import 'Bubble.dart';
 import 'MyGame.dart';
 import 'RareCandy.dart';
 
-enum PlayerState {
+enum EnemyState {
   idle,
   run,
   jump,
   attack
 }
 
-class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<MyGame>, CollisionCallbacks {
+class Monster extends SpriteAnimationGroupComponent<EnemyState> with HasGameRef<MyGame>, CollisionCallbacks {
   bool attacking = false;
   bool facingLeft = true;
   bool onGround = false;
   Vector2 velocity = Vector2.zero();
   late final running;
+  bool isLeft = false;
+  bool isRight = false;
 
   // final running = [1, 2, 3, 4, 5]
   //     .map((i) => Sprite.load('runningpip$i.png'));
@@ -57,9 +59,9 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
 
 
 
-  Player() : super(
+  Monster() : super(
       size: Vector2.all(128),
-      position: Vector2(100, -1800),
+      position: Vector2(0, -500),
       anchor: Anchor.center
   );
 
@@ -76,13 +78,16 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
     hitbox.renderShape = true;
     add(hitbox);
 
+    EnemyHitboxComponent enemyHitbox = EnemyHitboxComponent(this);
+    add(enemyHitbox);
+
 
     // populate all animation states
     animations = {
-      PlayerState.idle: await loadSpriteAnimation('pipidle', 40),
-      PlayerState.run: await loadSpriteAnimation('runningpip', 5),
-      PlayerState.jump: await loadSpriteAnimation('pipskip', 4),
-      PlayerState.attack: await loadSpriteAnimation('pipattack', 2),
+      EnemyState.idle: await loadSpriteAnimation('pipidle', 40),
+      EnemyState.run: await loadSpriteAnimation('runningpip', 5),
+      EnemyState.jump: await loadSpriteAnimation('pipskip', 4),
+      EnemyState.attack: await loadSpriteAnimation('pipattack', 2),
     };
     size = Vector2.all(128.0);
   }
@@ -100,14 +105,14 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
     if (facingLeft) {
 
       for (int i = 0; i < noOfAttacks; i++) {
-        Future.delayed(Duration(milliseconds: i*(55-noOfAttacks)), () {
+        Future.delayed(Duration(milliseconds: i*(50-noOfAttacks)), () {
           gameRef.addBubble(Vector2(position.x-25, position.y-10), Vector2(-1000, -10 * noOfAttacks + i*30), i);
         });
       }
 
     } else {
       for (int i = 0; i < noOfAttacks; i++) {
-        Future.delayed(Duration(milliseconds: i*(55-noOfAttacks)), () {
+        Future.delayed(Duration(milliseconds: i*(50-noOfAttacks)), () {
           gameRef.addBubble(Vector2(position.x+25, position.y-10), Vector2(1000, -10 * noOfAttacks + i*30), i);
         });
       }
@@ -261,37 +266,37 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
       if (velocity.y > 5) {
         velocity.y = 5;
       }
-      current = PlayerState.jump;
+      current = EnemyState.jump;
     } else {
-      current = PlayerState.idle;
+      current = EnemyState.idle;
       velocity.y = 0;
 
     }
 
-    if (MyGame.isC) {
-      attack();
-    }
-
-    if (MyGame.isSpace) {
-      jump();
-    }
+    // if (MyGame.isC) {
+    //   attack();
+    // }
+    //
+    // if (MyGame.isSpace) {
+    //   jump();
+    // }
 
 
     // this is for when moving, no need to have friction to slow player to a stop
-    if (!attacking && !(MyGame.isLeft && MyGame.isRight) && (MyGame.isLeft || MyGame.isRight)) {
+    if (!attacking && !(isLeft && isRight) && (isLeft || isRight)) {
 
-      if (current != PlayerState.jump) {
-        current = PlayerState.run;
+      if (current != EnemyState.jump) {
+        current = EnemyState.run;
       }
 
 
-      if (MyGame.isLeft) {
-        moveLeft(dt * 300);
-      }
-
-      if (MyGame.isRight) {
-        moveRight(dt * 300);
-      }
+      // if (MyGame.isLeft) {
+      //   moveLeft(dt * 300);
+      // }
+      //
+      // if (MyGame.isRight) {
+      //   moveRight(dt * 300);
+      // }
 
     } else {
       // if moving right
@@ -316,7 +321,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
     }
 
     if (attacking) {
-      current = PlayerState.attack;
+      current = EnemyState.attack;
     }
 
 
@@ -327,31 +332,10 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
 }
 
 
-class CameraObject extends PositionComponent with HasGameRef<MyGame> {
-  @override
-  void render(Canvas c) {
+class EnemyHitboxComponent extends PositionComponent with HasGameRef<MyGame>, CollisionCallbacks{
+  late Monster enemy;
 
-  }
-
-  tick(dt) {
-    // cameraobject follows player but not too closely
-    if (gameRef.player.position.x > position.x + gameRef.canvasSize.x / 2 - 100) {
-      position.x = gameRef.player.position.x - gameRef.canvasSize.x / 2 + 100;
-
-    }
-    if (gameRef.player.position.x < position.x - gameRef.canvasSize.x / 2 + 100) {
-      position.x = gameRef.player.position.x + gameRef.canvasSize.x / 2 - 100;
-    }
-    if (gameRef.player.position.y > position.y + gameRef.canvasSize.y / 2 - 200) {
-      position.y = gameRef.player.position.y - gameRef.canvasSize.y / 2 + 200;
-    }
-    if (gameRef.player.position.y < position.y - gameRef.canvasSize.y / 2 + 200) {
-      position.y = gameRef.player.position.y + gameRef.canvasSize.y / 2 - 200;
-    }
-  }
-}
-
-class PlayerHitboxComponent extends PositionComponent with HasGameRef<MyGame>, CollisionCallbacks{
+  EnemyHitboxComponent(this.enemy);
   @override
   void render(Canvas c) {
 
@@ -360,12 +344,12 @@ class PlayerHitboxComponent extends PositionComponent with HasGameRef<MyGame>, C
   //on load
   @override
   Future<void> onLoad() async {
-    size = gameRef.player.size * 0.8;
-    anchor = gameRef.player.anchor;
+    size = enemy.size * 1;
+    // anchor = Anchor.center;
     // add hitboxes
     ShapeHitbox hitbox = RectangleHitbox();
     // paints the hitbox so we can see
-    hitbox.paint = Paint()..color = Color(0x0);
+    hitbox.paint = Paint()..color = Color(0x6BFF0000);
 
     hitbox.renderShape = true;
     add(hitbox);
@@ -375,6 +359,15 @@ class PlayerHitboxComponent extends PositionComponent with HasGameRef<MyGame>, C
   @override
   void update(double dt) {
     super.update(dt);
-    position = gameRef.player.position;
   }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is Bubble && other.current != BubbleState.splash) {
+      other.removeItself(enemy);
+
+
+    }
+  }
+
 }
