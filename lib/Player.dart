@@ -24,6 +24,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
   bool attacking = false;
   bool facingLeft = true;
   bool onGround = false;
+  double friction = 300;
   Vector2 velocity = Vector2.zero();
   late final running;
 
@@ -298,17 +299,17 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRef<
       if (velocity.x >= 0.1) {
 
         if (onGround) {
-          velocity.x -= 0.1;
+          velocity.x -= 0.1 * friction * dt;
         } else {
-          velocity.x -= 0.01;
+          velocity.x -= 0.01 * friction * dt;
         }
 
         // if moving left
       } else if (velocity.x <= -0.1) {
         if (onGround) {
-          velocity.x += 0.1;
+          velocity.x += 0.1 * friction * dt;
         } else {
-          velocity.x += 0.01;
+          velocity.x += 0.01 * friction * dt;
         }
       } else { // if velocity is too low, set it to 0.
         velocity.x = 0;
