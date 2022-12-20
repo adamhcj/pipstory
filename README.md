@@ -5,7 +5,7 @@ Started developing on 1 December 2022 <br>
 Try it out! (please turn ur mobile to landscape orientation if trying on mobile)<br>
 Currently web deployed on: https://piplupowo.github.io/pipstory/<br>
 
-You will need to clone repo and add it as flutter project.<br>
+You will need to clone repo and add it as flutter project. Dart files are in lib folder<br>
 Game inspired by pokemon and maplestory<br>
 maplestory sound effects used: jumping sound, looting sound, background music (login screen music from maplestory)<br>
 pokemon sound effects used: piplup sounds<br>
