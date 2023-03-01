@@ -1,4 +1,7 @@
 # pipstory
+
+<img src="https://piplupowo.github.io/resources/bg5.gif" />
+<img src="https://piplupowo.github.io/resources/bg6.gif" />
 piplup 2d adventure game
 <p>
 Started developing on 1 December 2022 <br>
