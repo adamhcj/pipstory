@@ -7,7 +7,7 @@ piplup 2d adventure game
 <p>
 Started developing on 1 December 2022 <br>
 Try it out! (please turn ur mobile to landscape orientation if trying on mobile)<br>
-Currently web deployed on: https://piplupowo.github.io/pipstory/<br>
+Currently web deployed on: https://adamhcj.github.io/pipstory/<br>
 
 You will need to clone repo and add it as flutter project. Dart files are in lib folder<br>
 Game inspired by pokemon and maplestory<br>
