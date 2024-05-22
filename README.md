@@ -1,9 +1,14 @@
-# pipstory
+# 🐧 pipstory
 
 <img src="https://github.com/piplupOwo/piplupOwo.github.io/blob/main/resources/bg5.gif?raw=true" />
 <img src="https://github.com/piplupOwo/piplupOwo.github.io/blob/main/resources/bg6.gif?raw=true" />
 
-piplup 2d adventure game
+
+# 🐣 Have a look at early version (v2) !!
+https://github.com/adamhcj/pipstory/assets/82926705/aea18b6c-c456-403a-8818-bba622eacc86
+
+
+## 🐧🐧🐧 piplup 2d adventure game
 <p>
 Started developing on 1 December 2022 <br>
 Try it out! (please turn ur mobile to landscape orientation if trying on mobile)<br>
@@ -26,7 +31,7 @@ Flutter Flame package for game engine<br>
 Android studio IDE used to develop this flutter application
 </p>
 
-# Demo: (please enable sounds to listen to the sounds!)
+# 🖥️ Demo: (please enable sounds to listen to the sounds!)
 <p> Current Version: v6 </p>
 
 
@@ -42,10 +47,10 @@ https://user-images.githubusercontent.com/82926705/208002594-2eef2feb-df08-45ef-
 
 
 
-# Changelog:
+# 📄 Changelog:
 <p>
 
-pipstory version 1:
+🐣 pipstory version 1:
 
 gravity
 
@@ -56,7 +61,7 @@ space bar to jump (has jump sound too)
 press C to "attack" (has attack sound too)
 
 _________________________________________________________________________________________________________________________________________________________
-pipstory version 2:
+🐥 pipstory version 2:
 
 Added animations
 running animation credits: https://www.deviantart.com/chocomiru02/art/Pokemon-Running-Piplup-Animation-706510277
@@ -70,7 +75,7 @@ GIMP
 GIMP export layers plugin: https://github.com/kamilburda/gimp-export-layers
 
 _________________________________________________________________________________________________________________________________________________________
-pipstory version 3:
+🐤 pipstory version 3:
 
 Changed idle animation to another version from: https://arnavprasad.me/projects/shiny-hunt-automator/
 
@@ -82,7 +87,7 @@ attack bubble beam extracted from: https://www.deviantart.com/kaspiian/art/Bubbl
 Added bubble beam attack by pressing C
 
 _________________________________________________________________________________________________________________________________________________________
-pipstory version 4:
+🐔 pipstory version 4:
 
 
 Fixed to landscape orientation for mobile
@@ -104,7 +109,7 @@ spacebar button added.
 C button added.
   
 _________________________________________________________________________________________________________________________________________________________
-pipstory version 5:
+🐓 pipstory version 5:
 
 Added background: https://www.pinterest.com/pin/368450813254708380/
 
@@ -126,7 +131,7 @@ zoomed in slightly
 code refactoring, improved certain code like button positioning, number of attacks
 
 _________________________________________________________________________________________________________________________________________________________
-pipstory version 6:
+🐧 pipstory version 6:
 
 if canvasSize.y is small, camera zooms out.
 
