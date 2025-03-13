@@ -3,6 +3,9 @@
 <img src="https://github.com/piplupOwo/piplupOwo.github.io/blob/main/resources/bg5.gif?raw=true" />
 <img src="https://github.com/piplupOwo/piplupOwo.github.io/blob/main/resources/bg6.gif?raw=true" />
 
+# 📱 Playing it in Apple Store 🙈
+![image](https://github.com/user-attachments/assets/e32ce550-869d-47dd-bf49-321ab9040bd5)
+
 
 # 🐣 Have a look at early version (v2) !!
 https://github.com/adamhcj/pipstory/assets/82926705/aea18b6c-c456-403a-8818-bba622eacc86
